@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages with LFS
 on:
   push:
     branches:
-      - main  # 혹시 브랜치 이름이 master라면 master로 수정해 주세요.
+      - main
 
 permissions:
   contents: read
@@ -18,13 +18,13 @@ jobs:
   deploy:
     environment:
       name: github-pages
-      url: ${{ steps: deployment.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          lfs: true # 👈 이 옵션이 Git LFS 파일을 웹페이지용으로 가져오는 핵심입니다.
+          lfs: true
 
       - name: Checkout LFS objects
         run: git lfs checkout
@@ -35,7 +35,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.' # 웹 사이트로 띄울 폴더 위치 (최상위폴더)
+          path: '.'
 
       - name: Deploy to GitHub Pages
         id: deployment
